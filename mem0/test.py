@@ -1,7 +1,7 @@
 from mem0.memory.main import Memory
 import os
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 
 m = Memory()
 
