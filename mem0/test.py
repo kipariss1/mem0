@@ -1,7 +1,7 @@
 from mem0.memory.main import Memory
 
 
-# TODO: check why it doesn't fetch OPENAI_API_KEY from env vars even thought it's loaded there
+# TODO: check why it doesn't fetch OPENAI_API_KEY from env vars even thought it's loaded_there
 m = Memory()
 
 # 1. Add: Store a memory from any unstructured text
