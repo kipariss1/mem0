@@ -1,7 +1,4 @@
 from mem0.memory.main import Memory
-import os
-
-os.environ["OPENAI_API_KEY"] = ""
 
 m = Memory()
 
