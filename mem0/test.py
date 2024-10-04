@@ -1,8 +1,16 @@
 from mem0.memory.main import Memory
 
-
-# TODO: check why it doesn't fetch OPENAI_API_KEY from env vars even thought it's loaded there
-m = Memory()
+config = {
+    "llm": {
+        "provider": "ollama",
+        "config": {
+            "model": "llama3:latest",
+            "temperature": 0.1,
+            "max_tokens": 2000,
+        }
+    }
+}
+m = Memory.from_config(config)
 
 # 1. Add: Store a memory from any unstructured text
 result = m.add("I am working on improving my tennis skills. Suggest some online courses.", user_id="alice", metadata={"category": "hobbies"})
