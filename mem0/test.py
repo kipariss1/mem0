@@ -8,6 +8,12 @@ config = {
             "temperature": 0.1,
             "max_tokens": 2000,
         }
+    },
+    "embedder": {
+        "provider": "ollama",
+        "config": {
+            "model": "llama3:latest"
+        }
     }
 }
 m = Memory.from_config(config)
