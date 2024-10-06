@@ -14,6 +14,12 @@ config = {
         "config": {
             "model": "llama3:latest"
         }
+    },
+    "vector_store": {
+        "provider": "qdrant",
+        "config": {
+            "embedding_model_dims": 4096,
+        }
     }
 }
 m = Memory.from_config(config)

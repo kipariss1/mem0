@@ -133,7 +133,7 @@ class Memory(MemoryBase):
         else:
             system_prompt, user_prompt = get_fact_retrieval_messages(parsed_messages)
 
-        response = self.llm.generate_response(
+            response = self.llm.generate_response(
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
