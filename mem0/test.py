@@ -1,4 +1,5 @@
 from mem0.memory.main import Memory
+import os
 
 config = {
     "llm": {
@@ -19,6 +20,7 @@ config = {
         "provider": "mongodb_atlas",
         "config": {
             "embedding_model_dims": 4096,
+            "uri": os.environ['MONGODB_URI']
         }
     }
 }

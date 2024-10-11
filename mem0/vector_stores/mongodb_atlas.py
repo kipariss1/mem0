@@ -1,6 +1,7 @@
 from mem0.vector_stores.base import VectorStoreBase
 
-from pymongo import MongoClient
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from langchain.vectorstores import MongoDBAtlasVectorSearch
 
 import logging
@@ -25,6 +26,7 @@ class MongoDBAtlas(VectorStoreBase):
             params = {}
             if uri:
                 params['host'] = uri
+                params['server_api'] = ServerApi(version='1') 
             self.client = MongoClient(**params)
         try:
             self.database = self.client.get_database(database_name)
