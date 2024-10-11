@@ -16,7 +16,7 @@ config = {
         }
     },
     "vector_store": {
-        "provider": "qdrant",
+        "provider": "mongodb_atlas",
         "config": {
             "embedding_model_dims": 4096,
         }

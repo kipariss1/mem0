@@ -15,6 +15,7 @@ class VectorStoreConfig(BaseModel):
         "chroma": "ChromaDbConfig",
         "pgvector": "PGVectorConfig",
         "milvus": "MilvusDBConfig",
+        "mongodb_atlas": 
     }
 
     @model_validator(mode="after")
