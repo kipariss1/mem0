@@ -20,7 +20,8 @@ config = {
         "provider": "mongodb_atlas",
         "config": {
             "embedding_model_dims": 4096,
-            "uri": os.environ['MONGODB_URI']
+            "uri": os.environ['MONGODB_URI'],
+            "database_name": "mem0_db"
         }
     }
 }

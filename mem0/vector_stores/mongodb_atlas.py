@@ -28,18 +28,12 @@ class MongoDBAtlas(VectorStoreBase):
                 params['host'] = uri
                 params['server_api'] = ServerApi(version='1') 
             self.client = MongoClient(**params)
-        try:
-            self.database = self.client.get_database(database_name)
-            self.collection = self.database.get_collection(collection_name)
-        except:
-            logger.error("The MongoDB Atlas database couldn't connect to database")
-            self.database = None
-            self.collection = None
-        self.create_col(collection_name, embedding_model_dims)
+        self.collection_name = collection_name
+        self.database = self.client.get_database(database_name)
+        self.create_col(embedding_model_dims)
 
-    def create_col(self, name, vector_size, distance):
-        # TODO: implement it with checking if collection exists already
-        pass
+    def create_col(self, vector_size):
+        self.database.create_collection(self.collection_name, check_exists=True)
 
     def insert(self, name, vectors, payloads=None, ids=None):
         pass

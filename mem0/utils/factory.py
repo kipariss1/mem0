@@ -62,7 +62,7 @@ class VectorStoreFactory:
         "chroma": "mem0.vector_stores.chroma.ChromaDB",
         "pgvector": "mem0.vector_stores.pgvector.PGVector",
         "milvus": "mem0.vector_stores.milvus.MilvusDB",
-        "mongodb_atlass": "mem0.vector_stores.mongodb_atlass.MongoDBAtlass"
+        "mongodb_atlas": "mem0.vector_stores.mongodb_atlas.MongoDBAtlas"
     }
 
     @classmethod
