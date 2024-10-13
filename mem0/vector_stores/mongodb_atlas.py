@@ -4,6 +4,8 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from langchain.vectorstores import MongoDBAtlasVectorSearch
 
+from typing import List
+
 import logging
 
 # TODO: check here if pymongo installed and try to import it, if not - install
@@ -50,12 +52,12 @@ class MongoDBAtlas(VectorStoreBase):
     def get(self, name, vector_id):
         pass
 
-    def list_cols(self):
-        pass
+    def list_cols(self) -> List[str]:
+        return self.database.list_collection_names()
 
     def delete_col(self, name):
-        pass
+        self.database.drop_collection(name)
 
     def col_info(self, name):
-        pass
+        return self.database.get_collection(name)
         
