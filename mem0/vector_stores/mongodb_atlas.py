@@ -8,7 +8,7 @@ from typing import List
 
 import logging
 
-# TODO: check here if pymongo installed and try to import it, if not - install
+# TODO: Finish abstract methods with langchain, find a way to abstract the Emberdder choice for langchain vector store creaton 
 
 logger = logging.getLogger(__name__)
 
