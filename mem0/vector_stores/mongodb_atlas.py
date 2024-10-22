@@ -3,6 +3,7 @@ from mem0.vector_stores.base import VectorStoreBase
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from langchain.vectorstores import MongoDBAtlasVectorSearch
+from pymongo.errors import CollectionInvalid
 
 from typing import List
 
@@ -32,16 +33,22 @@ class MongoDBAtlas(VectorStoreBase):
             self.client = MongoClient(**params)
         self.collection_name = collection_name
         self.database = self.client.get_database(database_name)
+        self.collection = None
         self.create_col(embedding_model_dims)
 
     def create_col(self, vector_size):
-        self.database.create_collection(self.collection_name, check_exists=True)
+        try:
+            self.collection = self.database.create_collection(self.collection_name, check_exists=True)
+        except CollectionInvalid:
+            logger.info("Collection already exists, steps on creating collection on vectore store are skipped")
+            self.collection = self.database[self.collection_name]
 
     def insert(self, name, vectors, payloads=None, ids=None):
         pass
 
     def search(self, name, query, limit=5, filters=None):
-        pass
+        # TODO: test after something is added to the collection
+        self.collection.find(filter=query, limit=limit)
     
     def delete(self, name, vector_id):
         pass
