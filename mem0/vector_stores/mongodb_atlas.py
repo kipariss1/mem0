@@ -47,10 +47,12 @@ class MongoDBAtlas(VectorStoreBase):
     def insert(self, vectors, payloads=None, ids=None):
         documents = []
         for idx, vector in enumerate(vectors):
-            documents.append({
+            document = {
                 self.vector_field: vector,
                 "_id": ids[idx]
-            })
+            }
+            document.update(payloads[idx])
+            documents.append(document)
         self.collection.insert_many(documents)
 
 
