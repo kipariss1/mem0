@@ -2,7 +2,6 @@ from mem0.vector_stores.base import VectorStoreBase
 
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from langchain.vectorstores import MongoDBAtlasVectorSearch
 from pymongo.errors import CollectionInvalid
 
 from typing import List
@@ -19,6 +18,7 @@ class MongoDBAtlas(VectorStoreBase):
             self,
             collection_name: str,
             embedding_model_dims: int,
+            vector_field: str,
             client: MongoClient = None,
             uri: str = None,
             database_name: str = None
@@ -32,23 +32,42 @@ class MongoDBAtlas(VectorStoreBase):
                 params['server_api'] = ServerApi(version='1') 
             self.client = MongoClient(**params)
         self.collection_name = collection_name
+        self.vector_field = vector_field
         self.database = self.client.get_database(database_name)
         self.collection = None
-        self.create_col(embedding_model_dims)
+        self.create_col()
 
-    def create_col(self, vector_size):
+    def create_col(self):
         try:
             self.collection = self.database.create_collection(self.collection_name, check_exists=True)
         except CollectionInvalid:
             logger.info("Collection already exists, steps on creating collection on vectore store are skipped")
             self.collection = self.database[self.collection_name]
 
-    def insert(self, name, vectors, payloads=None, ids=None):
-        pass
+    def insert(self, vectors, payloads=None, ids=None):
+        documents = []
+        for idx, vector in enumerate(vectors):
+            documents.append({
+                self.vector_field: vector,
+                "_id": ids[idx]
+            })
+        self.collection.insert_many(documents)
 
-    def search(self, name, query, limit=5, filters=None):
+
+    def _construct_search_query(self, query, limit, filters):
+        return {
+            "$vectorSearch": {
+                "path": self.vector_field,
+                "queryVector": query,
+                "filter": filters,
+                "limit": limit
+            }
+        }
+
+    def search(self, query, limit=5, filters=None) -> list:
         # TODO: test after something is added to the collection
-        self.collection.find(filter=query, limit=limit)
+        result = self.collection.find(filter=self._construct_search_query(query, limit, filters))
+        return []
     
     def delete(self, name, vector_id):
         pass
